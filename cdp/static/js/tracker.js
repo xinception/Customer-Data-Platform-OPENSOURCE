@@ -1,12 +1,11 @@
-/* CDP Tracker - Lightweight client-side tracking for Customer Data Platform. No dependencies.
-   Usage: CDP.init({endpoint:'/api/v1/track'}); CDP.track('click',{id:'btn'}); */
+/* CDP Tracker - No dependencies. CDP.init({endpoint:'/api/v1/track'}); */
 (function(w,d){
 "use strict";
 var CK_V="_cdp_vid",CK_S="_cdp_sid",CK_C="_cdp_consent",
     ST=18e5,VD=365,FI=2e3,MQ=100,
     cfg={endpoint:"/api/v1/track",autoPageView:1,trackClicks:1,trackScrollDepth:1,
       trackTimeOnPage:1,crossDomainDomains:[],cookieDomain:"",cookiePath:"/",
-      cookieSecure:location.protocol==="https:",respectDNT:1,debug:0},
+      cookieSecure:location.protocol==="https:",respectDNT:1},
     s={on:0,vid:null,sid:null,la:0,uid:null,tr:{},co:null,q:[],sq:[],pa:0,sd:0,utm:{}};
 
 function id(){if(w.crypto&&w.crypto.randomUUID)return w.crypto.randomUUID();
@@ -24,19 +23,17 @@ function iV(){var v=gC(CK_V);if(!v){v=id();sC(CK_V,v,VD)}s.vid=v}
 function iS(){var i=gC(CK_S),ok=i&&s.la&&N()-s.la<ST;if(!ok)i=id();s.sid=i;s.la=N();sC(CK_S,i,0)}
 function tc(){s.la=N();sC(CK_S,s.sid,0)}
 
-function uUTM(){var k=["utm_source","utm_medium","utm_campaign","utm_term","utm_content"],
-  sr=w.location.search;if(!sr)return;sr.substring(1).split("&").forEach(function(x){
-  var p=x.split("="),n=decodeURIComponent(p[0]);if(k.indexOf(n)>-1&&p[1])s.utm[n]=decodeURIComponent(p[1])})}
+function uUTM(){var r=w.location.search;if(!r)return;r.substring(1).split("&").forEach(function(x){
+  var p=x.split("="),n=decodeURIComponent(p[0]);if(n.indexOf("utm_")===0&&p[1])s.utm[n]=decodeURIComponent(p[1])})}
 
 function lCo(){var r=gC(CK_C);if(r)try{s.co=JSON.parse(r)}catch(e){}}
 function sCo(c){s.co=c;sC(CK_C,JSON.stringify(c),VD)}
-function ok(){return s.co!==null&&(s.co.analytics===true)}
+function ok(){return s.co!==null&&s.co.analytics===true}
 
 function mk(t,n,p){return{event_id:id(),event_type:t,event_name:n||"",visitor_id:s.vid,
   session_id:s.sid,customer_id:s.uid,source:"web",timestamp:N()/1e3,properties:p||{},
-  context:{page:{url:location.href,path:location.pathname,title:d.title,referrer:d.referrer},
-  ua:navigator.userAgent,lang:navigator.language||"",scr:{w:screen.width,h:screen.height},
-  utm:s.utm}}}
+  context:{url:location.href,path:location.pathname,title:d.title,referrer:d.referrer,
+  ua:navigator.userAgent,utm:s.utm}}}
 
 function snd(ev){if(!ev.length)return;var p=JSON.stringify({events:ev}),u=cfg.endpoint;
   if(navigator.sendBeacon&&navigator.sendBeacon(u,new Blob([p],{type:"application/json"})))return;
@@ -54,7 +51,8 @@ function bClk(){if(!cfg.trackClicks)return;d.addEventListener("click",function(e
 function bScr(){if(!cfg.trackScrollDepth)return;var tk=0;
   w.addEventListener("scroll",function(){if(tk)return;tk=1;requestAnimationFrame(function(){
   var dh=Math.max(d.body.scrollHeight,d.documentElement.scrollHeight),wh=w.innerHeight,
-      st=w.pageYOffset||d.documentElement.scrollTop,dp=dh>wh?Math.round((st+wh)/dh*100):100;
+      st=w.pageYOffset||d.documentElement.scrollTop;
+  var dp=dh>wh?Math.round((st+wh)/dh*100):100;
   if(dp>s.sd)s.sd=dp;tk=0})},{passive:!0})}
 
 function bTop(){if(!cfg.trackTimeOnPage)return;s.pa=N();
@@ -64,10 +62,10 @@ function bTop(){if(!cfg.trackTimeOnPage)return;s.pa=N();
   d.addEventListener("visibilitychange",function(){if(d.visibilityState==="hidden")lv()});
   w.addEventListener("pagehide",lv)}
 
-function bXD(){if(!cfg.crossDomainDomains.length)return;
+function bXD(){var m=cfg.crossDomainDomains;if(!m.length)return;
   d.addEventListener("click",function(e){var el=e.target;
     while(el&&el.tagName!=="A")el=el.parentElement;if(!el||!el.href)return;
-    try{var u=new URL(el.href),m=cfg.crossDomainDomains;
+    try{var u=new URL(el.href);
       for(var i=0;i<m.length;i++)if(u.hostname===m[i]||u.hostname.indexOf("."+m[i])>-1){
         u.searchParams.set("_cdp_vid",s.vid);u.searchParams.set("_cdp_sid",s.sid);
         el.href=u.toString();break}}catch(x){}},!0)}
