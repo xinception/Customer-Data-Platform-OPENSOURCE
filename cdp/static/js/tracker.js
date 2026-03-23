@@ -83,7 +83,7 @@ var CDP={
     var pr={url:location.href,path:location.pathname,title:d.title,referrer:d.referrer};
     if(p)for(var k in p)if(p.hasOwnProperty(k))pr[k]=p[k];enq(mk("page_view","page_view",pr))},
   identify:function(uid,t){if(!s.on)return;s.uid=uid;s.tr=t||{};tc();
-    enq(mk("identify","identify",{user_id:uid,email:t&&t.email||null,phone:t&&t.phone||null,traits:t||{}}))},
+    enq(mk("identify","identify",{user_id:uid,traits:t||{}}))},
   consent:function(c){var m={necessary:!0};if(c)for(var k in c)if(c.hasOwnProperty(k))m[k]=!!c[k];
     sCo(m);if(ok())dr()},
   revokeConsent:function(){sCo({necessary:!0,analytics:!1,marketing:!1,personalization:!1});s.q=[];s.sq=[]},
