@@ -1,0 +1,107 @@
+version: "3.9"
+
+services:
+  cdp-api:
+    build: .
+    container_name: cdp-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://cdp:cdp_secret@postgres:5432/cdp
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - cdp-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: cdp-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: cdp
+      POSTGRES_PASSWORD: cdp_secret
+      POSTGRES_DB: cdp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cdp -d cdp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cdp-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: cdp-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cdp-network
+    restart: unless-stopped
+
+  celery-worker:
+    build: .
+    container_name: cdp-celery-worker
+    command: celery -A cdp.services.celery_app worker --loglevel=info --concurrency=4
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://cdp:cdp_secret@postgres:5432/cdp
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - cdp-network
+    restart: unless-stopped
+
+  celery-beat:
+    build: .
+    container_name: cdp-celery-beat
+    command: celery -A cdp.services.celery_app beat --loglevel=info
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://cdp:cdp_secret@postgres:5432/cdp
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - cdp-network
+    restart: unless-stopped
+
+networks:
+  cdp-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:
