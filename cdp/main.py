@@ -169,6 +169,23 @@ def create_app() -> FastAPI:
     app.include_router(workflows_router)
     app.include_router(analytics_router)
 
+    # ----- Template routes (dashboard UI) -----
+    templates_dir = Path(__file__).resolve().parent / "templates"
+    if templates_dir.is_dir():
+        templates = Jinja2Templates(directory=str(templates_dir))
+
+        @app.get("/dashboard", response_class=HTMLResponse, include_in_schema=False)
+        async def dashboard_page(request: Request):
+            return templates.TemplateResponse("dashboard.html", {"request": request})
+
+        @app.get("/customers", response_class=HTMLResponse, include_in_schema=False)
+        async def customers_page(request: Request):
+            return templates.TemplateResponse("customers.html", {"request": request})
+
+        @app.get("/campaigns", response_class=HTMLResponse, include_in_schema=False)
+        async def campaigns_page(request: Request):
+            return templates.TemplateResponse("campaigns.html", {"request": request})
+
     # ----- Static files (JS tracker, etc.) -----
     static_dir = Path(__file__).resolve().parent / "static"
     if static_dir.is_dir():
