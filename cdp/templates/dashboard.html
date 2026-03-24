@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CDP Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div class="app-container">
+
+  <!-- Mobile sidebar toggle -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+
+  <!-- ===== Sidebar ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">C</div>
+      <div>
+        <div class="sidebar-brand-text">CDP</div>
+        <div class="sidebar-brand-sub">Customer Data Platform</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="/dashboard" class="sidebar-link active">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="/customers" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Customers
+        <span class="sidebar-badge" id="sidebarCustomerCount">--</span>
+      </a>
+      <a href="/campaigns" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Campaigns
+      </a>
+
+      <div class="sidebar-section-label">Automation</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Workflows
+      </a>
+
+      <div class="sidebar-section-label">Intelligence</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg>
+        Analytics
+      </a>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Tracking
+      </a>
+
+      <div class="sidebar-section-label">System</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Settings
+      </a>
+    </nav>
+
+    <!-- Sidebar footer -->
+    <div style="padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 0.6rem;">
+      <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.75rem;">A</div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 0.8rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Admin User</div>
+        <div style="font-size: 0.65rem; color: var(--text-tertiary);">admin@cdp.io</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== Main Content ===== -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <h1>Dashboard</h1>
+        <p>Welcome back. Here is what is happening today.</p>
+      </div>
+      <div class="top-bar-right">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle theme"></button>
+        <button class="btn btn-primary" onclick="location.href='/campaigns'">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          New Campaign
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.75rem;">
+      <div class="stat-card fade-in-up fade-in-up-1">
+        <div class="stat-card-icon purple">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <div class="stat-card-value" id="statTotalCustomers">--</div>
+        <div class="stat-card-label">Total Customers</div>
+        <div class="stat-card-trend up" id="trendCustomers">+12.5%</div>
+      </div>
+      <div class="stat-card fade-in-up fade-in-up-2">
+        <div class="stat-card-icon cyan">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="stat-card-value" id="statActiveSessions">--</div>
+        <div class="stat-card-label">Active Sessions</div>
+        <div class="stat-card-trend up" id="trendSessions">+8.2%</div>
+      </div>
+      <div class="stat-card fade-in-up fade-in-up-3">
+        <div class="stat-card-icon green">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="stat-card-value" id="statCampaigns">--</div>
+        <div class="stat-card-label">Campaigns Running</div>
+        <div class="stat-card-trend up" id="trendCampaigns">+3</div>
+      </div>
+      <div class="stat-card fade-in-up fade-in-up-4">
+        <div class="stat-card-icon amber">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="stat-card-value" id="statSegments">--</div>
+        <div class="stat-card-label">AI Segments</div>
+        <div class="stat-card-trend up" id="trendSegments">+2</div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.75rem;">
+      <div class="chart-card fade-in-up" style="animation-delay: 0.2s;">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Customer Growth</div>
+            <div class="chart-card-subtitle">Last 12 months</div>
+          </div>
+          <select class="form-select" style="width: auto; font-size: 0.75rem; padding: 0.3rem 0.6rem;" id="growthPeriod" onchange="updateGrowthChart()">
+            <option value="12">12 Months</option>
+            <option value="6">6 Months</option>
+            <option value="3">3 Months</option>
+          </select>
+        </div>
+        <canvas id="chartGrowth" height="260"></canvas>
+      </div>
+      <div class="chart-card fade-in-up" style="animation-delay: 0.25s;">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Segment Distribution</div>
+            <div class="chart-card-subtitle">Current allocation</div>
+          </div>
+        </div>
+        <canvas id="chartSegments" height="260"></canvas>
+      </div>
+    </div>
+
+    <!-- Event Activity Chart -->
+    <div class="chart-card fade-in-up" style="animation-delay: 0.3s; margin-bottom: 1.75rem;">
+      <div class="chart-card-header">
+        <div>
+          <div class="chart-card-title">Event Activity</div>
+          <div class="chart-card-subtitle">Events tracked over the past 7 days</div>
+        </div>
+      </div>
+      <canvas id="chartEvents" height="180"></canvas>
+    </div>
+
+    <!-- Bottom row: Activity + Quick Actions -->
+    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem;">
+
+      <!-- Recent Activity -->
+      <div class="chart-card fade-in-up" style="animation-delay: 0.35s;">
+        <div class="chart-card-header">
+          <div class="chart-card-title">Recent Activity</div>
+          <button class="btn btn-ghost btn-sm">View All</button>
+        </div>
+        <div id="activityFeed">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="fade-in-up" style="animation-delay: 0.4s;">
+        <div style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem;">Quick Actions</div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <a href="/campaigns" class="quick-action">
+            <div class="quick-action-icon" style="background: rgba(99,102,241,0.1); color: #6366f1;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div>
+              <div class="quick-action-text">Create Campaign</div>
+              <div class="quick-action-sub">Launch a new marketing campaign</div>
+            </div>
+          </a>
+          <a href="/customers" class="quick-action">
+            <div class="quick-action-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            </div>
+            <div>
+              <div class="quick-action-text">Import Customers</div>
+              <div class="quick-action-sub">Bulk import from CSV or API</div>
+            </div>
+          </a>
+          <div class="quick-action" onclick="alert('Segmentation job queued!')">
+            <div class="quick-action-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+              <div class="quick-action-text">Run Segmentation</div>
+              <div class="quick-action-sub">Recompute AI-driven segments</div>
+            </div>
+          </div>
+          <div class="quick-action" onclick="location.href='/docs'">
+            <div class="quick-action-icon" style="background: rgba(6,182,212,0.1); color: #06b6d4;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div>
+              <div class="quick-action-text">API Docs</div>
+              <div class="quick-action-sub">Explore the REST API</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Revenue card -->
+        <div class="stat-card" style="margin-top: 1rem; background: var(--gradient-primary); border: none; color: #fff;">
+          <div style="font-size: 0.8rem; opacity: 0.85; font-weight: 500;">Revenue This Week</div>
+          <div style="font-size: 1.75rem; font-weight: 800; margin: 0.3rem 0; letter-spacing: -0.03em;" id="statRevenue">$0</div>
+          <div style="font-size: 0.75rem; opacity: 0.75;">Avg LTV: <strong id="statAvgLTV">$0</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ===========================================================================
+// Theme
+// ===========================================================================
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('cdp-theme', next);
+  updateChartColors();
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem('cdp-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+
+// ===========================================================================
+// Sidebar
+// ===========================================================================
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ===========================================================================
+// Mock data (fallback when API is unavailable)
+// ===========================================================================
+const MOCK_DASHBOARD = {
+  total_customers: 14832,
+  active_customers: 9417,
+  total_events_today: 34521,
+  total_events_week: 218743,
+  active_campaigns: 7,
+  active_workflows: 12,
+  avg_engagement_score: 72.4,
+  avg_lifetime_value: 284.50,
+  churn_risk_high: 312,
+  new_customers_today: 89,
+  new_customers_week: 643,
+  revenue_week: 47250.00,
+};
+
+const MOCK_GROWTH = {
+  labels: ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'],
+  data:   [8200, 8950, 9400, 9800, 10300, 10900, 11500, 12100, 12800, 13400, 14100, 14832],
+};
+
+const MOCK_SEGMENTS = {
+  labels: ['High Value', 'At Risk', 'New Users', 'Dormant', 'Loyal'],
+  data:   [3200, 1800, 2900, 2400, 4532],
+  colors: ['#6366f1', '#ef4444', '#06b6d4', '#94a3b8', '#10b981'],
+};
+
+const MOCK_EVENTS = {
+  labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+  pageviews: [4200, 5100, 4800, 5600, 6200, 3800, 3100],
+  clicks:    [1800, 2200, 2050, 2400, 2800, 1600, 1300],
+  conversions: [320, 410, 380, 450, 520, 280, 210],
+};
+
+const MOCK_ACTIVITY = [
+  { text: '<strong>Sarah Chen</strong> was added to segment <em>High Value</em>', time: '2 min ago', color: 'green' },
+  { text: 'Campaign <strong>Spring Sale 2024</strong> reached 10,000 recipients', time: '15 min ago', color: 'blue' },
+  { text: '<strong>AI Segmentation</strong> completed: 5 segments updated', time: '1 hour ago', color: 'amber' },
+  { text: '<strong>142 new events</strong> tracked from web SDK', time: '1 hour ago', color: 'cyan' },
+  { text: '<strong>Michael Park</strong> converted (Order #4821)', time: '2 hours ago', color: 'green' },
+  { text: 'Workflow <strong>Onboarding Flow</strong> triggered for 23 users', time: '3 hours ago', color: 'blue' },
+  { text: 'Churn prediction: <strong>8 customers</strong> flagged as high risk', time: '4 hours ago', color: 'amber' },
+  { text: '<strong>CSV import</strong> completed: 340 records processed', time: '5 hours ago', color: 'cyan' },
+];
+
+// ===========================================================================
+// Formatting
+// ===========================================================================
+function fmtNumber(n) {
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+  return n.toLocaleString();
+}
+function fmtCurrency(n) {
+  return '$' + n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+// ===========================================================================
+// Populate stats
+// ===========================================================================
+function populateStats(d) {
+  document.getElementById('statTotalCustomers').textContent = fmtNumber(d.total_customers);
+  document.getElementById('statActiveSessions').textContent = fmtNumber(d.total_events_today);
+  document.getElementById('statCampaigns').textContent = d.active_campaigns;
+  document.getElementById('statSegments').textContent = '5';
+  document.getElementById('statRevenue').textContent = fmtCurrency(d.revenue_week);
+  document.getElementById('statAvgLTV').textContent = fmtCurrency(d.avg_lifetime_value);
+  document.getElementById('sidebarCustomerCount').textContent = fmtNumber(d.total_customers);
+}
+
+// ===========================================================================
+// Activity feed
+// ===========================================================================
+function populateActivity(items) {
+  const container = document.getElementById('activityFeed');
+  container.innerHTML = items.map(a => `
+    <div class="activity-item">
+      <div class="activity-dot ${a.color}"></div>
+      <div>
+        <div class="activity-text">${a.text}</div>
+        <div class="activity-time">${a.time}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===========================================================================
+// Charts
+// ===========================================================================
+let growthChart, segmentChart, eventChart;
+
+function getChartFontColor() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? '#94a3b8' : '#64748b';
+}
+function getChartGridColor() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(148,163,184,0.08)' : 'rgba(0,0,0,0.05)';
+}
+
+function buildGrowthChart() {
+  const ctx = document.getElementById('chartGrowth').getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, 260);
+  grad.addColorStop(0, 'rgba(99,102,241,0.25)');
+  grad.addColorStop(1, 'rgba(99,102,241,0.01)');
+
+  growthChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: MOCK_GROWTH.labels,
+      datasets: [{
+        label: 'Customers',
+        data: MOCK_GROWTH.data,
+        borderColor: '#6366f1',
+        backgroundColor: grad,
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#6366f1',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: getChartFontColor(), font: { size: 11 } } },
+        y: { grid: { color: getChartGridColor() }, ticks: { color: getChartFontColor(), font: { size: 11 } }, beginAtZero: false },
+      },
+      interaction: { intersect: false, mode: 'index' },
+    }
+  });
+}
+
+function buildSegmentChart() {
+  const ctx = document.getElementById('chartSegments').getContext('2d');
+  segmentChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: MOCK_SEGMENTS.labels,
+      datasets: [{
+        data: MOCK_SEGMENTS.data,
+        backgroundColor: MOCK_SEGMENTS.colors,
+        borderWidth: 0,
+        hoverOffset: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '68%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: getChartFontColor(), padding: 12, usePointStyle: true, pointStyleWidth: 8, font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+function buildEventChart() {
+  const ctx = document.getElementById('chartEvents').getContext('2d');
+  eventChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: MOCK_EVENTS.labels,
+      datasets: [
+        { label: 'Page Views', data: MOCK_EVENTS.pageviews, backgroundColor: 'rgba(99,102,241,0.75)', borderRadius: 4 },
+        { label: 'Clicks', data: MOCK_EVENTS.clicks, backgroundColor: 'rgba(6,182,212,0.75)', borderRadius: 4 },
+        { label: 'Conversions', data: MOCK_EVENTS.conversions, backgroundColor: 'rgba(16,185,129,0.75)', borderRadius: 4 },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+          align: 'end',
+          labels: { color: getChartFontColor(), usePointStyle: true, pointStyleWidth: 8, font: { size: 11 }, padding: 16 }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: getChartFontColor(), font: { size: 11 } } },
+        y: { grid: { color: getChartGridColor() }, ticks: { color: getChartFontColor(), font: { size: 11 } } },
+      }
+    }
+  });
+}
+
+function updateChartColors() {
+  [growthChart, segmentChart, eventChart].forEach(c => {
+    if (!c) return;
+    if (c.options.scales?.x) c.options.scales.x.ticks.color = getChartFontColor();
+    if (c.options.scales?.y) {
+      c.options.scales.y.ticks.color = getChartFontColor();
+      c.options.scales.y.grid.color = getChartGridColor();
+    }
+    if (c.options.plugins?.legend?.labels) c.options.plugins.legend.labels.color = getChartFontColor();
+    c.update();
+  });
+}
+
+function updateGrowthChart() {
+  const months = parseInt(document.getElementById('growthPeriod').value);
+  growthChart.data.labels = MOCK_GROWTH.labels.slice(-months);
+  growthChart.data.datasets[0].data = MOCK_GROWTH.data.slice(-months);
+  growthChart.update();
+}
+
+// ===========================================================================
+// Data fetching with graceful fallback
+// ===========================================================================
+async function loadDashboard() {
+  let data = MOCK_DASHBOARD;
+  try {
+    const res = await fetch('/api/v1/analytics/dashboard');
+    if (res.ok) {
+      data = await res.json();
+    }
+  } catch (e) {
+    console.info('API unavailable, using mock data.');
+  }
+  populateStats(data);
+}
+
+// ===========================================================================
+// Init
+// ===========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  loadDashboard();
+  populateActivity(MOCK_ACTIVITY);
+  buildGrowthChart();
+  buildSegmentChart();
+  buildEventChart();
+});
+</script>
+</body>
+</html>
