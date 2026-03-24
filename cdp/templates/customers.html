@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers - CDP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div class="app-container">
+
+  <!-- Mobile sidebar toggle -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+
+  <!-- ===== Sidebar ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">C</div>
+      <div>
+        <div class="sidebar-brand-text">CDP</div>
+        <div class="sidebar-brand-sub">Customer Data Platform</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="/dashboard" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="/customers" class="sidebar-link active">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Customers
+      </a>
+      <a href="/campaigns" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Campaigns
+      </a>
+      <div class="sidebar-section-label">Automation</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Workflows
+      </a>
+      <div class="sidebar-section-label">Intelligence</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg>
+        Analytics
+      </a>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Tracking
+      </a>
+      <div class="sidebar-section-label">System</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Settings
+      </a>
+    </nav>
+    <div style="padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 0.6rem;">
+      <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.75rem;">A</div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 0.8rem; font-weight: 600; color: #fff;">Admin User</div>
+        <div style="font-size: 0.65rem; color: var(--text-tertiary);">admin@cdp.io</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== Main ===== -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <h1>Customers</h1>
+        <p>Manage and explore your customer base.</p>
+      </div>
+      <div class="top-bar-right">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode"></button>
+        <button class="btn btn-secondary" onclick="exportCSV()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export
+        </button>
+        <button class="btn btn-primary" onclick="alert('Import dialog coming soon')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          Import
+        </button>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-bar" style="width: 280px;">
+        <span class="search-bar-icon">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </span>
+        <input type="text" class="form-input" placeholder="Search by name, email..." id="searchInput" oninput="filterCustomers()">
+      </div>
+      <select class="form-select" style="width: 160px;" id="filterSegment" onchange="filterCustomers()">
+        <option value="">All Segments</option>
+        <option value="High Value">High Value</option>
+        <option value="At Risk">At Risk</option>
+        <option value="New User">New User</option>
+        <option value="Dormant">Dormant</option>
+        <option value="Loyal">Loyal</option>
+      </select>
+      <select class="form-select" style="width: 160px;" id="filterEngagement" onchange="filterCustomers()">
+        <option value="">All Engagement</option>
+        <option value="high">High (70+)</option>
+        <option value="medium">Medium (40-69)</option>
+        <option value="low">Low (0-39)</option>
+      </select>
+      <input type="date" class="form-input" style="width: 150px;" id="filterDateFrom" onchange="filterCustomers()" title="From date">
+      <input type="date" class="form-input" style="width: 150px;" id="filterDateTo" onchange="filterCustomers()" title="To date">
+      <div class="toolbar-spacer"></div>
+      <span style="font-size: 0.8rem; color: var(--text-secondary);" id="resultCount">0 customers</span>
+      <button class="btn btn-secondary btn-sm" id="bulkBtn" style="display:none;" onclick="bulkAddToCampaign()">Add to Campaign</button>
+    </div>
+
+    <!-- Table -->
+    <div class="data-table-wrapper fade-in-up">
+      <table class="data-table" id="customerTable">
+        <thead>
+          <tr>
+            <th style="width: 36px;"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+            <th data-sort="name" onclick="sortBy('name')">Name</th>
+            <th data-sort="email" onclick="sortBy('email')">Email</th>
+            <th data-sort="segment" onclick="sortBy('segment')">Segment</th>
+            <th data-sort="ltv" onclick="sortBy('ltv')">LTV</th>
+            <th data-sort="engagement" onclick="sortBy('engagement')">Engagement</th>
+            <th data-sort="risk" onclick="sortBy('risk')">Risk</th>
+            <th style="width: 48px;"></th>
+          </tr>
+        </thead>
+        <tbody id="customerBody">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+      <div class="pagination" id="pagination"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== Customer Detail Modal ===== -->
+<div class="modal-overlay" id="customerModal">
+  <div class="modal-content" style="max-width: 900px;">
+    <div class="modal-header">
+      <h3 id="modalTitle">Customer 360</h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <!-- Profile Header -->
+      <div style="display: flex; gap: 1.25rem; align-items: flex-start; margin-bottom: 1.5rem;" id="modalProfile">
+        <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; font-weight: 700; flex-shrink: 0;" id="modalAvatar">?</div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 1.25rem; font-weight: 700;" id="modalName">--</div>
+          <div style="font-size: 0.85rem; color: var(--text-secondary);" id="modalEmail">--</div>
+          <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap;" id="modalTags"></div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 0.75rem; color: var(--text-tertiary);">Lifetime Value</div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: var(--accent-primary);" id="modalLTV">--</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tab-nav" id="modalTabs">
+        <button class="tab-btn active" onclick="switchTab('profile')">Profile</button>
+        <button class="tab-btn" onclick="switchTab('timeline')">Timeline</button>
+        <button class="tab-btn" onclick="switchTab('predictions')">Predictions</button>
+        <button class="tab-btn" onclick="switchTab('recommendations')">Recommendations</button>
+      </div>
+
+      <!-- Tab: Profile -->
+      <div class="tab-panel active" id="tab-profile">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <div class="form-label">First Name</div>
+            <div style="font-size: 0.9rem; font-weight: 500;" id="profileFirst">--</div>
+          </div>
+          <div>
+            <div class="form-label">Last Name</div>
+            <div style="font-size: 0.9rem; font-weight: 500;" id="profileLast">--</div>
+          </div>
+          <div>
+            <div class="form-label">Phone</div>
+            <div style="font-size: 0.9rem; font-weight: 500;" id="profilePhone">--</div>
+          </div>
+          <div>
+            <div class="form-label">Source</div>
+            <div style="font-size: 0.9rem; font-weight: 500;" id="profileSource">--</div>
+          </div>
+          <div>
+            <div class="form-label">Engagement Score</div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div class="score-bar" style="width: 120px;"><div class="score-bar-fill high" id="profileEngBar" style="width: 0%;"></div></div>
+              <span style="font-size: 0.85rem; font-weight: 700;" id="profileEngVal">--</span>
+            </div>
+          </div>
+          <div>
+            <div class="form-label">Churn Risk</div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div class="score-bar" style="width: 120px;"><div class="score-bar-fill low" id="profileRiskBar" style="width: 0%;"></div></div>
+              <span style="font-size: 0.85rem; font-weight: 700;" id="profileRiskVal">--</span>
+            </div>
+          </div>
+          <div>
+            <div class="form-label">Created</div>
+            <div style="font-size: 0.9rem; font-weight: 500;" id="profileCreated">--</div>
+          </div>
+          <div>
+            <div class="form-label">Last Active</div>
+            <div style="font-size: 0.9rem; font-weight: 500;" id="profileActive">--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Timeline -->
+      <div class="tab-panel" id="tab-timeline">
+        <div id="timelineContent">
+          <div class="activity-item"><div class="activity-dot green"></div><div><div class="activity-text">Completed purchase - Order #4821 ($142.00)</div><div class="activity-time">Today, 2:34 PM</div></div></div>
+          <div class="activity-item"><div class="activity-dot blue"></div><div><div class="activity-text">Opened email: "Spring Collection Preview"</div><div class="activity-time">Today, 10:15 AM</div></div></div>
+          <div class="activity-item"><div class="activity-dot cyan"></div><div><div class="activity-text">Viewed product: Premium Wireless Headphones</div><div class="activity-time">Yesterday, 8:45 PM</div></div></div>
+          <div class="activity-item"><div class="activity-dot cyan"></div><div><div class="activity-text">Added item to cart</div><div class="activity-time">Yesterday, 8:42 PM</div></div></div>
+          <div class="activity-item"><div class="activity-dot amber"></div><div><div class="activity-text">Submitted support ticket #1092</div><div class="activity-time">3 days ago</div></div></div>
+          <div class="activity-item"><div class="activity-dot green"></div><div><div class="activity-text">Completed purchase - Order #4798 ($89.50)</div><div class="activity-time">1 week ago</div></div></div>
+        </div>
+      </div>
+
+      <!-- Tab: Predictions -->
+      <div class="tab-panel" id="tab-predictions">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+          <div class="stat-card">
+            <div class="stat-card-label">Churn Probability</div>
+            <div class="stat-card-value" style="font-size: 1.5rem;" id="predChurn">12%</div>
+            <div class="badge badge-low" style="margin-top: 0.4rem;">Low Risk</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Next Purchase</div>
+            <div class="stat-card-value" style="font-size: 1.5rem;" id="predPurchase">5 days</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.4rem;">Estimated</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Predicted LTV (12mo)</div>
+            <div class="stat-card-value" style="font-size: 1.5rem;" id="predLTV">$842</div>
+            <div class="stat-card-trend up">+18%</div>
+          </div>
+        </div>
+        <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-tertiary); border-radius: var(--radius-md); font-size: 0.85rem; color: var(--text-secondary);">
+          <strong style="color: var(--text-primary);">AI Insight:</strong> This customer shows strong purchase patterns on weekends. Engagement has increased 23% over the last 30 days. Recommended to include in loyalty program tier upgrade.
+        </div>
+      </div>
+
+      <!-- Tab: Recommendations -->
+      <div class="tab-panel" id="tab-recommendations">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+            <div style="width: 48px; height: 48px; background: var(--bg-tertiary); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">&#127911;</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 600; font-size: 0.9rem;">Premium Wireless Headphones</div>
+              <div style="font-size: 0.75rem; color: var(--text-tertiary);">Based on browsing history</div>
+            </div>
+            <div style="font-weight: 700; color: var(--accent-primary);">$149.99</div>
+            <div class="badge badge-active">92% match</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+            <div style="width: 48px; height: 48px; background: var(--bg-tertiary); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">&#128092;</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 600; font-size: 0.9rem;">Leather Weekend Bag</div>
+              <div style="font-size: 0.75rem; color: var(--text-tertiary);">Popular with similar customers</div>
+            </div>
+            <div style="font-weight: 700; color: var(--accent-primary);">$219.00</div>
+            <div class="badge badge-active">87% match</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+            <div style="width: 48px; height: 48px; background: var(--bg-tertiary); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">&#9201;</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 600; font-size: 0.9rem;">Smart Fitness Watch</div>
+              <div style="font-size: 0.75rem; color: var(--text-tertiary);">Frequently bought together</div>
+            </div>
+            <div style="font-weight: 700; color: var(--accent-primary);">$299.00</div>
+            <div class="badge badge-paused">78% match</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+      <button class="btn btn-primary" onclick="alert('Edit mode coming soon')">Edit Customer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===========================================================================
+// Theme / Sidebar
+// ===========================================================================
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('cdp-theme', next);
+}
+(function() { const s = localStorage.getItem('cdp-theme'); if (s) document.documentElement.setAttribute('data-theme', s); })();
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+// ===========================================================================
+// Mock Customer Data
+// ===========================================================================
+const SEGMENTS = ['High Value', 'At Risk', 'New User', 'Dormant', 'Loyal'];
+const SOURCES = ['Web', 'Mobile App', 'API', 'Import', 'Referral'];
+const FIRST_NAMES = ['Sarah','Michael','Emma','James','Olivia','William','Ava','Alexander','Sophia','Daniel','Isabella','David','Mia','Joseph','Charlotte','Matthew','Amelia','Andrew','Harper','Ryan','Evelyn','Nathan','Abigail','Brandon','Emily'];
+const LAST_NAMES = ['Chen','Park','Johnson','Williams','Brown','Jones','Garcia','Miller','Davis','Rodriguez','Martinez','Wilson','Anderson','Thomas','Taylor','Moore','Jackson','Martin','Lee','Perez','Thompson','White','Harris','Sanchez','Clark'];
+
+function generateCustomers(count) {
+  const customers = [];
+  for (let i = 0; i < count; i++) {
+    const first = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
+    const last = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
+    const seg = SEGMENTS[Math.floor(Math.random() * SEGMENTS.length)];
+    const engagement = Math.floor(Math.random() * 100);
+    const risk = Math.floor(Math.random() * 100);
+    const ltv = Math.floor(Math.random() * 2000) + 50;
+    const daysAgo = Math.floor(Math.random() * 365);
+    const created = new Date(Date.now() - daysAgo * 86400000);
+    customers.push({
+      id: crypto.randomUUID ? crypto.randomUUID() : 'id-' + i,
+      first_name: first,
+      last_name: last,
+      name: first + ' ' + last,
+      email: (first + '.' + last + '@example.com').toLowerCase(),
+      phone: '+1 ' + Math.floor(2000000000 + Math.random() * 8000000000),
+      segment: seg,
+      ltv: ltv,
+      engagement: engagement,
+      risk: risk,
+      source: SOURCES[Math.floor(Math.random() * SOURCES.length)],
+      created_at: created.toISOString(),
+      last_active: new Date(Date.now() - Math.floor(Math.random() * 14) * 86400000).toISOString(),
+      tags: [seg, engagement > 70 ? 'Engaged' : '', risk > 70 ? 'Churn Risk' : ''].filter(Boolean),
+    });
+  }
+  return customers;
+}
+
+let allCustomers = [];
+let filtered = [];
+let currentPage = 1;
+const PAGE_SIZE = 15;
+let sortField = 'name';
+let sortDir = 'asc';
+let selectedIds = new Set();
+
+// ===========================================================================
+// Filtering
+// ===========================================================================
+function filterCustomers() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const seg = document.getElementById('filterSegment').value;
+  const eng = document.getElementById('filterEngagement').value;
+  const dateFrom = document.getElementById('filterDateFrom').value;
+  const dateTo = document.getElementById('filterDateTo').value;
+
+  filtered = allCustomers.filter(c => {
+    if (q && !c.name.toLowerCase().includes(q) && !c.email.toLowerCase().includes(q)) return false;
+    if (seg && c.segment !== seg) return false;
+    if (eng === 'high' && c.engagement < 70) return false;
+    if (eng === 'medium' && (c.engagement < 40 || c.engagement >= 70)) return false;
+    if (eng === 'low' && c.engagement >= 40) return false;
+    if (dateFrom && c.created_at < dateFrom) return false;
+    if (dateTo && c.created_at > dateTo + 'T23:59:59') return false;
+    return true;
+  });
+
+  currentPage = 1;
+  selectedIds.clear();
+  applySortAndRender();
+}
+
+// ===========================================================================
+// Sorting
+// ===========================================================================
+function sortBy(field) {
+  if (sortField === field) {
+    sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    sortField = field;
+    sortDir = 'asc';
+  }
+  // Update header classes
+  document.querySelectorAll('.data-table th').forEach(th => {
+    th.classList.remove('sorted-asc', 'sorted-desc');
+    if (th.dataset.sort === field) th.classList.add(sortDir === 'asc' ? 'sorted-asc' : 'sorted-desc');
+  });
+  applySortAndRender();
+}
+
+function applySortAndRender() {
+  filtered.sort((a, b) => {
+    let va = a[sortField], vb = b[sortField];
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va < vb) return sortDir === 'asc' ? -1 : 1;
+    if (va > vb) return sortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+  renderTable();
+  renderPagination();
+}
+
+// ===========================================================================
+// Rendering
+// ===========================================================================
+function scoreClass(v) { return v >= 70 ? 'high' : v >= 40 ? 'medium' : 'low'; }
+function badgeClass(seg) {
+  if (seg === 'High Value' || seg === 'Loyal') return 'badge-active';
+  if (seg === 'At Risk') return 'badge-high';
+  if (seg === 'Dormant') return 'badge-draft';
+  return 'badge-paused';
+}
+
+function renderTable() {
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page = filtered.slice(start, start + PAGE_SIZE);
+  document.getElementById('resultCount').textContent = filtered.length + ' customer' + (filtered.length !== 1 ? 's' : '');
+
+  const tbody = document.getElementById('customerBody');
+  if (page.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 2rem; color: var(--text-tertiary);">No customers match your filters.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = page.map(c => `
+    <tr onclick="openCustomer('${c.id}')" style="cursor:pointer;">
+      <td onclick="event.stopPropagation()"><input type="checkbox" ${selectedIds.has(c.id) ? 'checked' : ''} onchange="toggleSelect('${c.id}', this.checked)"></td>
+      <td>
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.7rem;flex-shrink:0;">${c.first_name[0]}${c.last_name[0]}</div>
+          <div>
+            <div style="font-weight:600;font-size:0.85rem;">${c.name}</div>
+          </div>
+        </div>
+      </td>
+      <td style="color:var(--text-secondary);font-size:0.82rem;">${c.email}</td>
+      <td><span class="badge ${badgeClass(c.segment)}">${c.segment}</span></td>
+      <td style="font-weight:700;">$${c.ltv.toLocaleString()}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:0.4rem;">
+          <div class="score-bar"><div class="score-bar-fill ${scoreClass(c.engagement)}" style="width:${c.engagement}%"></div></div>
+          <span style="font-size:0.8rem;font-weight:600;">${c.engagement}</span>
+        </div>
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:0.4rem;">
+          <div class="score-bar"><div class="score-bar-fill ${scoreClass(100 - c.risk)}" style="width:${c.risk}%"></div></div>
+          <span style="font-size:0.8rem;font-weight:600;">${c.risk}</span>
+        </div>
+      </td>
+      <td>
+        <svg width="16" height="16" fill="none" stroke="var(--text-tertiary)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderPagination() {
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const container = document.getElementById('pagination');
+  if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+  let html = `<button onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>&laquo;</button>`;
+  const start = Math.max(1, currentPage - 2);
+  const end = Math.min(totalPages, currentPage + 2);
+  for (let i = start; i <= end; i++) {
+    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  html += `<button onclick="goPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>&raquo;</button>`;
+  container.innerHTML = html;
+}
+
+function goPage(p) {
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  if (p < 1 || p > totalPages) return;
+  currentPage = p;
+  renderTable();
+  renderPagination();
+}
+
+// ===========================================================================
+// Selection
+// ===========================================================================
+function toggleSelect(id, checked) {
+  if (checked) selectedIds.add(id); else selectedIds.delete(id);
+  document.getElementById('bulkBtn').style.display = selectedIds.size > 0 ? 'inline-flex' : 'none';
+}
+
+function toggleSelectAll() {
+  const checked = document.getElementById('selectAll').checked;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page = filtered.slice(start, start + PAGE_SIZE);
+  page.forEach(c => { if (checked) selectedIds.add(c.id); else selectedIds.delete(c.id); });
+  renderTable();
+  document.getElementById('bulkBtn').style.display = selectedIds.size > 0 ? 'inline-flex' : 'none';
+}
+
+function bulkAddToCampaign() {
+  alert(selectedIds.size + ' customer(s) selected. Campaign assignment coming soon.');
+}
+
+function exportCSV() {
+  const rows = [['Name','Email','Segment','LTV','Engagement','Risk']];
+  filtered.forEach(c => rows.push([c.name, c.email, c.segment, c.ltv, c.engagement, c.risk]));
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'customers_export.csv';
+  a.click();
+}
+
+// ===========================================================================
+// Modal
+// ===========================================================================
+function openCustomer(id) {
+  const c = allCustomers.find(x => x.id === id);
+  if (!c) return;
+
+  document.getElementById('modalTitle').textContent = 'Customer 360 - ' + c.name;
+  document.getElementById('modalAvatar').textContent = c.first_name[0] + c.last_name[0];
+  document.getElementById('modalName').textContent = c.name;
+  document.getElementById('modalEmail').textContent = c.email;
+  document.getElementById('modalLTV').textContent = '$' + c.ltv.toLocaleString();
+
+  document.getElementById('modalTags').innerHTML = c.tags.map(t => `<span class="badge ${badgeClass(t)}">${t}</span>`).join('');
+
+  document.getElementById('profileFirst').textContent = c.first_name;
+  document.getElementById('profileLast').textContent = c.last_name;
+  document.getElementById('profilePhone').textContent = c.phone;
+  document.getElementById('profileSource').textContent = c.source;
+  document.getElementById('profileEngVal').textContent = c.engagement;
+  document.getElementById('profileEngBar').style.width = c.engagement + '%';
+  document.getElementById('profileEngBar').className = 'score-bar-fill ' + scoreClass(c.engagement);
+  document.getElementById('profileRiskVal').textContent = c.risk;
+  document.getElementById('profileRiskBar').style.width = c.risk + '%';
+  document.getElementById('profileRiskBar').className = 'score-bar-fill ' + scoreClass(100 - c.risk);
+  document.getElementById('profileCreated').textContent = new Date(c.created_at).toLocaleDateString();
+  document.getElementById('profileActive').textContent = new Date(c.last_active).toLocaleDateString();
+
+  // Predictions (mock dynamic values)
+  document.getElementById('predChurn').textContent = c.risk + '%';
+  document.getElementById('predPurchase').textContent = (Math.floor(Math.random() * 14) + 1) + ' days';
+  document.getElementById('predLTV').textContent = '$' + Math.floor(c.ltv * (1.5 + Math.random())).toLocaleString();
+
+  switchTab('profile');
+  document.getElementById('customerModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('customerModal').classList.remove('open');
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().replace(/\s/g,'') === name.replace(/\s/g,'').toLowerCase() || (name === 'profile' && i === 0));
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('tab-' + name);
+  if (panel) panel.classList.add('active');
+}
+
+// Close modal on overlay click
+document.getElementById('customerModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Close on ESC
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ===========================================================================
+// Data loading
+// ===========================================================================
+async function loadCustomers() {
+  try {
+    const res = await fetch('/api/v1/customers?page=1&size=200');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.items && data.items.length > 0) {
+        allCustomers = data.items.map(c => ({
+          ...c,
+          name: (c.first_name || '') + ' ' + (c.last_name || ''),
+          segment: (c.tags && c.tags[0]) || SEGMENTS[Math.floor(Math.random() * SEGMENTS.length)],
+          ltv: c.metadata?.ltv || Math.floor(Math.random() * 2000) + 50,
+          engagement: c.metadata?.engagement || Math.floor(Math.random() * 100),
+          risk: c.metadata?.risk || Math.floor(Math.random() * 100),
+        }));
+      } else {
+        allCustomers = generateCustomers(150);
+      }
+    } else {
+      allCustomers = generateCustomers(150);
+    }
+  } catch (e) {
+    console.info('API unavailable, using mock data.');
+    allCustomers = generateCustomers(150);
+  }
+  filtered = [...allCustomers];
+  applySortAndRender();
+}
+
+document.addEventListener('DOMContentLoaded', loadCustomers);
+</script>
+</body>
+</html>
