@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaigns - CDP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div class="app-container">
+
+  <!-- Mobile sidebar toggle -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+
+  <!-- ===== Sidebar ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">C</div>
+      <div>
+        <div class="sidebar-brand-text">CDP</div>
+        <div class="sidebar-brand-sub">Customer Data Platform</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="/dashboard" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="/customers" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Customers
+      </a>
+      <a href="/campaigns" class="sidebar-link active">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Campaigns
+      </a>
+      <div class="sidebar-section-label">Automation</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Workflows
+      </a>
+      <div class="sidebar-section-label">Intelligence</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg>
+        Analytics
+      </a>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Tracking
+      </a>
+      <div class="sidebar-section-label">System</div>
+      <a href="#" class="sidebar-link">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Settings
+      </a>
+    </nav>
+    <div style="padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 0.6rem;">
+      <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.75rem;">A</div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 0.8rem; font-weight: 600; color: #fff;">Admin User</div>
+        <div style="font-size: 0.65rem; color: var(--text-tertiary);">admin@cdp.io</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== Main ===== -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <h1>Campaigns</h1>
+        <p>Create, manage, and analyze your marketing campaigns.</p>
+      </div>
+      <div class="top-bar-right">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode"></button>
+        <button class="btn btn-primary" onclick="openCreateModal()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          New Campaign
+        </button>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.75rem;">
+      <div class="stat-card fade-in-up fade-in-up-1">
+        <div class="stat-card-icon green">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="stat-card-value" id="statActive">0</div>
+        <div class="stat-card-label">Active Campaigns</div>
+      </div>
+      <div class="stat-card fade-in-up fade-in-up-2">
+        <div class="stat-card-icon purple">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <div class="stat-card-value" id="statTotalSent">0</div>
+        <div class="stat-card-label">Total Sent</div>
+      </div>
+      <div class="stat-card fade-in-up fade-in-up-3">
+        <div class="stat-card-icon cyan">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="stat-card-value" id="statAvgOpen">0%</div>
+        <div class="stat-card-label">Avg Open Rate</div>
+      </div>
+      <div class="stat-card fade-in-up fade-in-up-4">
+        <div class="stat-card-icon amber">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <div class="stat-card-value" id="statAvgConv">0%</div>
+        <div class="stat-card-label">Avg Conversion</div>
+      </div>
+    </div>
+
+    <!-- Filter toolbar -->
+    <div class="toolbar">
+      <div class="search-bar" style="width: 260px;">
+        <span class="search-bar-icon">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </span>
+        <input type="text" class="form-input" placeholder="Search campaigns..." id="searchCampaign" oninput="filterCampaigns()">
+      </div>
+      <select class="form-select" style="width: 140px;" id="filterStatus" onchange="filterCampaigns()">
+        <option value="">All Statuses</option>
+        <option value="active">Active</option>
+        <option value="draft">Draft</option>
+        <option value="completed">Completed</option>
+        <option value="paused">Paused</option>
+      </select>
+      <select class="form-select" style="width: 140px;" id="filterType" onchange="filterCampaigns()">
+        <option value="">All Types</option>
+        <option value="email">Email</option>
+        <option value="sms">SMS</option>
+        <option value="push">Push</option>
+        <option value="in-app">In-App</option>
+      </select>
+      <div class="toolbar-spacer"></div>
+      <span style="font-size: 0.8rem; color: var(--text-secondary);" id="campaignCount">0 campaigns</span>
+    </div>
+
+    <!-- Campaign list -->
+    <div class="data-table-wrapper fade-in-up" style="animation-delay: 0.15s;">
+      <table class="data-table" id="campaignTable">
+        <thead>
+          <tr>
+            <th onclick="sortCampaigns('name')">Campaign</th>
+            <th onclick="sortCampaigns('campaign_type')">Type</th>
+            <th onclick="sortCampaigns('status')">Status</th>
+            <th onclick="sortCampaigns('sent')">Sent</th>
+            <th onclick="sortCampaigns('opened')">Opened</th>
+            <th onclick="sortCampaigns('clicked')">Clicked</th>
+            <th onclick="sortCampaigns('converted')">Converted</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="campaignBody"></tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== Create Campaign Modal ===== -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal-content" style="max-width: 680px;">
+    <div class="modal-header">
+      <h3>Create Campaign</h3>
+      <button class="modal-close" onclick="closeCreateModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div style="display: grid; gap: 1rem;">
+        <div>
+          <label class="form-label">Campaign Name *</label>
+          <input type="text" class="form-input" id="newName" placeholder="e.g. Spring Sale 2024">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label class="form-label">Type *</label>
+            <select class="form-select" id="newType">
+              <option value="email">Email</option>
+              <option value="sms">SMS</option>
+              <option value="push">Push Notification</option>
+              <option value="in-app">In-App Message</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Schedule</label>
+            <input type="datetime-local" class="form-input" id="newSchedule">
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Subject Line</label>
+          <input type="text" class="form-input" id="newSubject" placeholder="Email subject line">
+        </div>
+        <div>
+          <label class="form-label">Audience Criteria</label>
+          <select class="form-select" id="newAudience">
+            <option value="all">All Customers</option>
+            <option value="high_value">High Value Segment</option>
+            <option value="at_risk">At Risk Segment</option>
+            <option value="new_users">New Users (last 30 days)</option>
+            <option value="loyal">Loyal Customers</option>
+            <option value="dormant">Dormant Customers</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Content</label>
+          <textarea class="form-textarea" id="newContent" rows="5" placeholder="Enter your campaign content or HTML..."></textarea>
+        </div>
+        <div>
+          <label class="form-label">Sender Name</label>
+          <input type="text" class="form-input" id="newSender" placeholder="e.g. CDP Team" value="CDP Team">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeCreateModal()">Cancel</button>
+      <button class="btn btn-secondary" onclick="saveDraft()">Save as Draft</button>
+      <button class="btn btn-primary" onclick="createCampaign()">Create &amp; Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Campaign Detail Modal ===== -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-content" style="max-width: 780px;">
+    <div class="modal-header">
+      <h3 id="detailTitle">Campaign Detail</h3>
+      <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <!-- Stats row -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem;" id="detailStats">
+        <div class="stat-card" style="padding: 1rem;">
+          <div class="stat-card-label">Sent</div>
+          <div class="stat-card-value" style="font-size: 1.5rem;" id="detSent">0</div>
+        </div>
+        <div class="stat-card" style="padding: 1rem;">
+          <div class="stat-card-label">Opened</div>
+          <div class="stat-card-value" style="font-size: 1.5rem;" id="detOpened">0</div>
+          <div style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 600;" id="detOpenRate">0%</div>
+        </div>
+        <div class="stat-card" style="padding: 1rem;">
+          <div class="stat-card-label">Clicked</div>
+          <div class="stat-card-value" style="font-size: 1.5rem;" id="detClicked">0</div>
+          <div style="font-size: 0.75rem; color: var(--accent-secondary); font-weight: 600;" id="detClickRate">0%</div>
+        </div>
+        <div class="stat-card" style="padding: 1rem;">
+          <div class="stat-card-label">Converted</div>
+          <div class="stat-card-value" style="font-size: 1.5rem;" id="detConverted">0</div>
+          <div style="font-size: 0.75rem; color: var(--accent-success); font-weight: 600;" id="detConvRate">0%</div>
+        </div>
+      </div>
+
+      <!-- Funnel chart -->
+      <div class="chart-card" style="margin-bottom: 1.25rem;">
+        <div class="chart-card-header">
+          <div class="chart-card-title">Conversion Funnel</div>
+        </div>
+        <canvas id="chartFunnel" height="200"></canvas>
+      </div>
+
+      <!-- Campaign info -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+          <div class="form-label">Type</div>
+          <div style="font-size: 0.9rem; font-weight: 500;" id="detType">--</div>
+        </div>
+        <div>
+          <div class="form-label">Status</div>
+          <div id="detStatus">--</div>
+        </div>
+        <div>
+          <div class="form-label">Subject</div>
+          <div style="font-size: 0.9rem; font-weight: 500;" id="detSubject">--</div>
+        </div>
+        <div>
+          <div class="form-label">Scheduled At</div>
+          <div style="font-size: 0.9rem; font-weight: 500;" id="detScheduled">--</div>
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <div class="form-label">Revenue Generated</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--accent-success);" id="detRevenue">$0</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeDetailModal()">Close</button>
+      <button class="btn btn-primary" onclick="alert('Campaign editor coming soon')">Edit Campaign</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===========================================================================
+// Theme / Sidebar
+// ===========================================================================
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('cdp-theme', next);
+}
+(function() { const s = localStorage.getItem('cdp-theme'); if (s) document.documentElement.setAttribute('data-theme', s); })();
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+// ===========================================================================
+// Mock Campaign Data
+// ===========================================================================
+const CAMPAIGN_NAMES = [
+  'Spring Sale 2024', 'Welcome Series', 'Re-engagement Flow', 'Black Friday Promo',
+  'Product Launch: Headphones', 'Loyalty Rewards Update', 'Cart Abandonment Recovery',
+  'Holiday Gift Guide', 'New Feature Announcement', 'VIP Exclusive Offer',
+  'Birthday Celebration', 'Win-Back Campaign', 'Referral Program Launch',
+  'End of Season Clearance', 'Customer Survey'
+];
+const TYPES = ['email', 'sms', 'push', 'in-app'];
+const STATUSES = ['active', 'draft', 'completed', 'paused'];
+
+function generateCampaigns() {
+  return CAMPAIGN_NAMES.map((name, i) => {
+    const status = STATUSES[i % STATUSES.length];
+    const sent = status === 'draft' ? 0 : Math.floor(Math.random() * 15000) + 1000;
+    const opened = Math.floor(sent * (0.15 + Math.random() * 0.45));
+    const clicked = Math.floor(opened * (0.1 + Math.random() * 0.4));
+    const converted = Math.floor(clicked * (0.05 + Math.random() * 0.3));
+    const revenue = converted * (20 + Math.floor(Math.random() * 80));
+    const daysAgo = Math.floor(Math.random() * 60);
+    return {
+      id: 'cmp-' + i,
+      name: name,
+      campaign_type: TYPES[i % TYPES.length],
+      status: status,
+      subject_line: 'Check out ' + name.toLowerCase(),
+      scheduled_at: new Date(Date.now() - daysAgo * 86400000).toISOString(),
+      sent: sent,
+      opened: opened,
+      clicked: clicked,
+      converted: converted,
+      open_rate: sent > 0 ? ((opened / sent) * 100).toFixed(1) : '0.0',
+      click_rate: sent > 0 ? ((clicked / sent) * 100).toFixed(1) : '0.0',
+      conversion_rate: sent > 0 ? ((converted / sent) * 100).toFixed(1) : '0.0',
+      revenue: revenue,
+    };
+  });
+}
+
+let allCampaigns = [];
+let filteredCampaigns = [];
+let campSortField = 'name';
+let campSortDir = 'asc';
+
+// ===========================================================================
+// Filter / Sort
+// ===========================================================================
+function filterCampaigns() {
+  const q = document.getElementById('searchCampaign').value.toLowerCase().trim();
+  const st = document.getElementById('filterStatus').value;
+  const tp = document.getElementById('filterType').value;
+
+  filteredCampaigns = allCampaigns.filter(c => {
+    if (q && !c.name.toLowerCase().includes(q)) return false;
+    if (st && c.status !== st) return false;
+    if (tp && c.campaign_type !== tp) return false;
+    return true;
+  });
+  renderCampaigns();
+}
+
+function sortCampaigns(field) {
+  if (campSortField === field) campSortDir = campSortDir === 'asc' ? 'desc' : 'asc';
+  else { campSortField = field; campSortDir = 'asc'; }
+
+  filteredCampaigns.sort((a, b) => {
+    let va = a[field], vb = b[field];
+    if (typeof va === 'string') { va = va.toLowerCase(); vb = vb.toLowerCase(); }
+    if (va < vb) return campSortDir === 'asc' ? -1 : 1;
+    if (va > vb) return campSortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+  renderCampaigns();
+}
+
+// ===========================================================================
+// Rendering
+// ===========================================================================
+function statusBadge(s) {
+  return `<span class="badge badge-${s}">${s}</span>`;
+}
+function typeIcon(t) {
+  const icons = {
+    email: '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+    sms: '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
+    push: '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>',
+    'in-app': '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>',
+  };
+  return (icons[t] || '') + ' <span style="text-transform:capitalize;">' + t + '</span>';
+}
+
+function renderCampaigns() {
+  document.getElementById('campaignCount').textContent = filteredCampaigns.length + ' campaign' + (filteredCampaigns.length !== 1 ? 's' : '');
+
+  // Summary stats
+  const active = filteredCampaigns.filter(c => c.status === 'active').length;
+  const totalSent = filteredCampaigns.reduce((s, c) => s + c.sent, 0);
+  const withSent = filteredCampaigns.filter(c => c.sent > 0);
+  const avgOpen = withSent.length > 0 ? (withSent.reduce((s, c) => s + parseFloat(c.open_rate), 0) / withSent.length).toFixed(1) : '0.0';
+  const avgConv = withSent.length > 0 ? (withSent.reduce((s, c) => s + parseFloat(c.conversion_rate), 0) / withSent.length).toFixed(1) : '0.0';
+
+  document.getElementById('statActive').textContent = active;
+  document.getElementById('statTotalSent').textContent = totalSent.toLocaleString();
+  document.getElementById('statAvgOpen').textContent = avgOpen + '%';
+  document.getElementById('statAvgConv').textContent = avgConv + '%';
+
+  const tbody = document.getElementById('campaignBody');
+  if (filteredCampaigns.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-tertiary);">No campaigns match your filters.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filteredCampaigns.map(c => `
+    <tr>
+      <td>
+        <div style="font-weight:600;font-size:0.85rem;">${c.name}</div>
+        <div style="font-size:0.72rem;color:var(--text-tertiary);">${c.subject_line || ''}</div>
+      </td>
+      <td><div style="display:flex;align-items:center;gap:0.4rem;font-size:0.82rem;color:var(--text-secondary);">${typeIcon(c.campaign_type)}</div></td>
+      <td>${statusBadge(c.status)}</td>
+      <td style="font-weight:600;">${c.sent.toLocaleString()}</td>
+      <td>
+        <span style="font-weight:600;">${c.opened.toLocaleString()}</span>
+        <span style="font-size:0.72rem;color:var(--text-tertiary);margin-left:0.3rem;">${c.open_rate}%</span>
+      </td>
+      <td>
+        <span style="font-weight:600;">${c.clicked.toLocaleString()}</span>
+        <span style="font-size:0.72rem;color:var(--text-tertiary);margin-left:0.3rem;">${c.click_rate}%</span>
+      </td>
+      <td>
+        <span style="font-weight:600;">${c.converted.toLocaleString()}</span>
+        <span style="font-size:0.72rem;color:var(--text-tertiary);margin-left:0.3rem;">${c.conversion_rate}%</span>
+      </td>
+      <td>
+        <button class="btn btn-ghost btn-sm" onclick="openDetail('${c.id}')" title="View details">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ===========================================================================
+// Create Campaign Modal
+// ===========================================================================
+function openCreateModal() {
+  document.getElementById('createModal').classList.add('open');
+  document.getElementById('newName').focus();
+}
+function closeCreateModal() {
+  document.getElementById('createModal').classList.remove('open');
+}
+
+function saveDraft() {
+  const name = document.getElementById('newName').value.trim();
+  if (!name) { alert('Campaign name is required.'); return; }
+  addCampaign('draft');
+}
+
+function createCampaign() {
+  const name = document.getElementById('newName').value.trim();
+  if (!name) { alert('Campaign name is required.'); return; }
+  addCampaign('active');
+}
+
+function addCampaign(status) {
+  const name = document.getElementById('newName').value.trim();
+  const c = {
+    id: 'cmp-' + Date.now(),
+    name: name,
+    campaign_type: document.getElementById('newType').value,
+    status: status,
+    subject_line: document.getElementById('newSubject').value || name,
+    scheduled_at: document.getElementById('newSchedule').value || new Date().toISOString(),
+    sent: status === 'active' ? Math.floor(Math.random() * 5000) + 500 : 0,
+    opened: 0, clicked: 0, converted: 0,
+    open_rate: '0.0', click_rate: '0.0', conversion_rate: '0.0',
+    revenue: 0,
+  };
+  if (c.sent > 0) {
+    c.opened = Math.floor(c.sent * (0.2 + Math.random() * 0.3));
+    c.clicked = Math.floor(c.opened * (0.15 + Math.random() * 0.3));
+    c.converted = Math.floor(c.clicked * (0.1 + Math.random() * 0.2));
+    c.open_rate = ((c.opened / c.sent) * 100).toFixed(1);
+    c.click_rate = ((c.clicked / c.sent) * 100).toFixed(1);
+    c.conversion_rate = ((c.converted / c.sent) * 100).toFixed(1);
+    c.revenue = c.converted * (25 + Math.floor(Math.random() * 75));
+  }
+  allCampaigns.unshift(c);
+  filteredCampaigns = [...allCampaigns];
+  renderCampaigns();
+  closeCreateModal();
+  // Reset form
+  document.getElementById('newName').value = '';
+  document.getElementById('newSubject').value = '';
+  document.getElementById('newContent').value = '';
+  document.getElementById('newSchedule').value = '';
+}
+
+// ===========================================================================
+// Detail Modal
+// ===========================================================================
+let funnelChart = null;
+
+function openDetail(id) {
+  const c = allCampaigns.find(x => x.id === id);
+  if (!c) return;
+
+  document.getElementById('detailTitle').textContent = c.name;
+  document.getElementById('detSent').textContent = c.sent.toLocaleString();
+  document.getElementById('detOpened').textContent = c.opened.toLocaleString();
+  document.getElementById('detOpenRate').textContent = c.open_rate + '% open rate';
+  document.getElementById('detClicked').textContent = c.clicked.toLocaleString();
+  document.getElementById('detClickRate').textContent = c.click_rate + '% click rate';
+  document.getElementById('detConverted').textContent = c.converted.toLocaleString();
+  document.getElementById('detConvRate').textContent = c.conversion_rate + '% conversion';
+  document.getElementById('detType').textContent = c.campaign_type;
+  document.getElementById('detStatus').innerHTML = statusBadge(c.status);
+  document.getElementById('detSubject').textContent = c.subject_line || '--';
+  document.getElementById('detScheduled').textContent = c.scheduled_at ? new Date(c.scheduled_at).toLocaleString() : '--';
+  document.getElementById('detRevenue').textContent = '$' + c.revenue.toLocaleString();
+
+  document.getElementById('detailModal').classList.add('open');
+
+  // Build funnel chart after modal is visible
+  setTimeout(() => buildFunnelChart(c), 100);
+}
+
+function closeDetailModal() {
+  document.getElementById('detailModal').classList.remove('open');
+  if (funnelChart) { funnelChart.destroy(); funnelChart = null; }
+}
+
+function buildFunnelChart(c) {
+  if (funnelChart) funnelChart.destroy();
+  const ctx = document.getElementById('chartFunnel').getContext('2d');
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const fontColor = isDark ? '#94a3b8' : '#64748b';
+
+  funnelChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Sent', 'Opened', 'Clicked', 'Converted'],
+      datasets: [{
+        data: [c.sent, c.opened, c.clicked, c.converted],
+        backgroundColor: ['rgba(99,102,241,0.8)', 'rgba(6,182,212,0.8)', 'rgba(245,158,11,0.8)', 'rgba(16,185,129,0.8)'],
+        borderRadius: 6,
+        barPercentage: 0.6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: isDark ? 'rgba(148,163,184,0.08)' : 'rgba(0,0,0,0.05)' }, ticks: { color: fontColor, font: { size: 11 } } },
+        y: { grid: { display: false }, ticks: { color: fontColor, font: { size: 12, weight: '600' } } },
+      }
+    }
+  });
+}
+
+// Close modals on overlay click / ESC
+document.getElementById('createModal').addEventListener('click', function(e) { if (e.target === this) closeCreateModal(); });
+document.getElementById('detailModal').addEventListener('click', function(e) { if (e.target === this) closeDetailModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCreateModal(); closeDetailModal(); } });
+
+// ===========================================================================
+// Data loading
+// ===========================================================================
+async function loadCampaigns() {
+  try {
+    const res = await fetch('/api/v1/campaigns?page=1&size=50');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.items && data.items.length > 0) {
+        allCampaigns = data.items.map(c => ({
+          ...c,
+          sent: c.sent || 0,
+          opened: c.opened || 0,
+          clicked: c.clicked || 0,
+          converted: c.converted || 0,
+          open_rate: c.open_rate ? c.open_rate.toFixed(1) : '0.0',
+          click_rate: c.click_rate ? c.click_rate.toFixed(1) : '0.0',
+          conversion_rate: c.conversion_rate ? c.conversion_rate.toFixed(1) : '0.0',
+          revenue: c.revenue_generated || 0,
+        }));
+      } else {
+        allCampaigns = generateCampaigns();
+      }
+    } else {
+      allCampaigns = generateCampaigns();
+    }
+  } catch (e) {
+    console.info('API unavailable, using mock data.');
+    allCampaigns = generateCampaigns();
+  }
+  filteredCampaigns = [...allCampaigns];
+  renderCampaigns();
+}
+
+document.addEventListener('DOMContentLoaded', loadCampaigns);
+</script>
+</body>
+</html>
